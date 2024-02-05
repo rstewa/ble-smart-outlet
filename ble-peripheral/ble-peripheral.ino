@@ -55,12 +55,16 @@ void setup() {
     while (1);
   }
 
-  BLE.setLocalName("Arduino Nano 33 BLE (Peripheral)");
+  BLE.setDeviceName("ble-smart-outlet");
+  BLE.setLocalName("ble-smart-outlet");
   BLE.setAdvertisedService(gestureService);
   gestureService.addCharacteristic(gestureCharacteristic);
   BLE.addService(gestureService);
-  gestureCharacteristic.writeValue(-1);
+  gestureCharacteristic.writeValue(0);
   BLE.advertise();
+
+  Serial.print("Peripheral device MAC: ");
+  Serial.println(BLE.address());
 
   Serial.println("Nano 33 BLE (Peripheral Device)");
   Serial.println(" ");
@@ -68,8 +72,8 @@ void setup() {
 
 void loop() {
   BLEDevice central = BLE.central();
-  Serial.println("- Discovering central device...");
-  delay(500);
+  // Serial.println("- Discovering central device...");
+  // delay(500);
 
   if (central) {
     Serial.println("* Connected to central device!");
@@ -78,7 +82,11 @@ void loop() {
     Serial.println(" ");
 
     while (central.connected()) {
+      if (gestureCharacteristic.valueUpdated()) {
+        Serial.println("* gesture characteristic was written to");
+      }
       if (gestureCharacteristic.written()) {
+         Serial.println("* gesture characteristic was written to");
          gesture = gestureCharacteristic.value();
          writeGesture(gesture);
        }
