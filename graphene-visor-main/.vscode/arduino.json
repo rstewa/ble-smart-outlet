@@ -1,5 +1,0 @@
-{
-    "port": "/dev/tty.usbmodem141301",
-    "board": "arduino:mbed_nano:nano33ble",
-    "programmer": "arduino:cmsis-dap"
-}

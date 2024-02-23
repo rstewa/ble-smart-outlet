@@ -1,19 +1,7 @@
 /*
- * Author: Ryan Stewart
- * Date: 2/4/24
- */
-
-/*
-  BLE_Peripheral.ino
-
-  This program uses the ArduinoBLE library to set-up an Arduino Nano 33 BLE
-  as a peripheral device and specifies a service and a characteristic. Depending
-  of the value of the specified characteristic, an on-board LED gets on.
-
-  The circuit:
-  - Arduino Nano 33 BLE.
-
-  This example code is in the public domain.
+  Author: Ryan Stewart
+  Created: 2/4/24
+  Updated: 2/23/24
 */
 
 #include <ArduinoBLE.h>
@@ -23,17 +11,15 @@ enum {
   STATE_ON = 1,
 };
 
-const char *deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
-const char *deviceServiceCharacteristicUuid =
-    "19b10001-e8f2-537e-4f6c-d104768a1214";
+const char *deviceServiceUuid = "628e460b-f5b0-4348-9e91-b9777c65bf11";
+const char *deviceServiceCharacteristicUuid = "c1e4b52d-a02d-4dcd-9fa4-27dd90c52f03";
 
 int state = -1;
-
 int pinOut = 9;
 
 BLEService smartOutletService(deviceServiceUuid);
 BLEByteCharacteristic smartOutletCharacteristic(deviceServiceCharacteristicUuid,
-                                                BLERead | BLEWrite);
+                                                BLERead | BLEWrite | BLENotify);
 
 void setup() {
   Serial.begin(9600);
@@ -50,6 +36,9 @@ void setup() {
     Serial.println("- Starting Bluetooth® Low Energy module failed!");
     while (1)
       ;
+  }
+  else {
+    Serial.println("Successfully Started Bluetooth® Low Energy module!");
   }
 
   BLE.setDeviceName("ble-smart-outlet");
@@ -69,8 +58,6 @@ void setup() {
 
 void loop() {
   BLEDevice central = BLE.central();
-  // Serial.println("- Discovering central device...");
-  // delay(500);
 
   if (central) {
     Serial.println("* Connected to central device!");
