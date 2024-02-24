@@ -85,9 +85,11 @@ void setup() {
   stateCharacteristic->setCallbacks(new StateCharacteristicCallback());
 
   stateCharacteristic->setValue(&state, 1);
+
   pService->start();
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->start();
 
   Serial.printf("Started BLE advertising for SERVICE_UUID: %s & CHARACTERISTIC_UUID: %s\n", SERVICE_UUID, CHARACTERISTIC_UUID);
