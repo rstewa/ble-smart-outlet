@@ -9,8 +9,8 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 
-#define SERVICE_NAME "BLE Smart Outlet v2 - Light"
-#define SERVICE_UUID "e09845c4-269e-4475-b393-6a169014ef69"
+#define SERVICE_NAME "BLE Smart Outlet - Dust Collector"
+#define SERVICE_UUID "628e460b-f5b0-4348-9e91-b9777c65bf11"
 #define CHARACTERISTIC_UUID "c1e4b52d-a02d-4dcd-9fa4-27dd90c52f03"
 
 const uint8_t STATE_OFF = 0;
